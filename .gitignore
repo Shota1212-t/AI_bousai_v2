@@ -1,0 +1,3 @@
+# APIキーが入っているファイル（絶対にコミットしないこと）
+start-server.bat
+.env

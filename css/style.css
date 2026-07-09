@@ -1,0 +1,529 @@
+﻿*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:#F0F3F8;color:#1a2332;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.topbar{background:#1E5BC0;color:#fff;padding:14px 28px;display:flex;align-items:center;gap:14px}
+.logo-c{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.topbar h1{font-size:17px;font-weight:600;flex:1;letter-spacing:.5px}
+.lang-sel-wrap{position:relative;flex-shrink:0}
+.lang-sel{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit}
+.lang-dropdown{position:absolute;right:0;top:calc(100% + 8px);background:#fff;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.18);min-width:150px;z-index:3000;overflow:hidden;animation:langDropIn .15s ease}
+@keyframes langDropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.lang-drop-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;cursor:pointer;color:#1a2233;white-space:nowrap;transition:background .1s}
+.lang-drop-item:hover{background:#EEF3FB}
+.lang-drop-item.active{color:#1E5BC0;font-weight:600;background:#F0F5FE}
+body.dark .lang-dropdown{background:#1e293b;box-shadow:0 4px 20px rgba(0,0,0,.45)}
+body.dark .lang-drop-item{color:#e2e8f0}
+body.dark .lang-drop-item:hover{background:rgba(255,255,255,.08)}
+body.dark .lang-drop-item.active{color:#7FB0FF;background:rgba(127,176,255,.15)}
+.panel{background:#fff;border-radius:10px;border:1px solid #E2E8F0;overflow:hidden}
+.hidden{display:none!important}
+.bottomnav{background:#fff;border-top:1px solid #E2E8F0;display:flex;padding:6px 0;width:100%;flex-shrink:0}
+.navitem{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;cursor:pointer;font-size:13px;color:#5F6B7C;border:none;background:none;font-family:inherit}
+.navitem.active{color:#1E5BC0;font-weight:700}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a2332;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:2500;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* ホーム・ハザード共通ラッパー */
+.home-wrap{max-width:1280px;margin:0 auto;padding:20px 24px 20px;flex:1;min-height:0;overflow-y:auto}
+.home-hero{background:linear-gradient(135deg,#1E5BC0,#3576E0);border-radius:14px;padding:28px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.home-hero::after{content:'';position:absolute;right:-20px;bottom:-30px;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.hero-text{flex:1;min-width:260px;position:relative;z-index:1}
+.home-hero h2{font-size:20px;font-weight:700;margin-bottom:6px}
+.home-hero p{font-size:13px;opacity:.85;line-height:1.5;max-width:420px;margin-bottom:0}
+.hero-row{display:flex;flex-direction:column;gap:12px;flex-shrink:0;position:relative;z-index:1}
+.hero-chip{padding:15px 28px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;min-width:210px;transition:background .15s}
+.hero-chip svg{width:18px;height:18px}
+.hero-chip:hover{background:rgba(255,255,255,.28)}
+.hero-chip.hero-danger{background:#DC2626;border-color:#DC2626}
+.hero-chip.hero-danger:hover{background:#B91C1C}
+.home-status{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+.status-card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px}
+.status-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.status-label{font-size:11px;color:#5F6B7C;margin-bottom:4px}
+.status-val{font-size:15px;font-weight:700}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.hg-card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:18px;cursor:pointer;transition:all .15s}
+.hg-card:hover{border-color:#1E5BC0;background:#F8FAFF}
+.hg-card h3{font-size:14px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.hg-card p{font-size:12px;color:#5F6B7C;line-height:1.5}
+.home-shelters h3{font-size:15px;font-weight:700;margin-bottom:12px}
+.home-shelters .sh-row{display:flex;gap:10px;align-items:center;padding:12px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:8px;cursor:pointer}
+.home-shelters .sh-row:hover{border-color:#1E5BC0}
+.sh-dot{width:28px;height:28px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.sh-name{font-size:13px;font-weight:600}
+.sh-sub{font-size:11px;color:#5F6B7C}
+.sh-badge{font-size:10px;padding:3px 8px;border-radius:6px;background:#E8F0FC;color:#1E5BC0;font-weight:600;margin-left:auto;white-space:nowrap}
+
+/* チャット：左＝現在地の防災情報（大きい地図）／右＝AIチャット＋操作（HTMLの順序はそのまま、CSSで並べ替え） */
+.chat-wrap{max-width:1280px;margin:0 auto;padding:16px 24px 16px;flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:5fr 3fr;gap:16px;align-content:start}
+#page-chat>.panel:nth-child(1){order:2;align-self:start;min-width:0}/* AIチャット → 右（狭い3fr側・内容ぶんの高さにして空白を防ぐ）*/
+#page-chat>.panel:nth-child(2){order:1;min-width:0;align-self:start}/* 地図を含む情報パネル → 左（広い5fr側）*/
+/* チャット欄の下に移動したアクション類（公式マップ/リスク地図/安否連絡＋その他の機能）*/
+.chat-acts{padding:14px 18px;border-top:1px solid #EEF2F7;display:flex;flex-direction:column;gap:14px}
+.chat-head{padding:16px 20px;border-bottom:1px solid #EEF2F7;display:flex;align-items:flex-start;gap:12px}
+.chat-icon{width:36px;height:36px;background:#E8F0FC;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.chat-title h2{font-size:15px;font-weight:700;margin-bottom:2px}
+.chat-title p{font-size:11px;color:#5F6B7C}
+.hist-link{margin-left:auto;font-size:13px;font-weight:600;color:#1E5BC0;cursor:pointer;text-decoration:none;padding:6px 12px;border-radius:8px;background:#EEF3FB;white-space:nowrap;transition:background .15s}
+.hist-link:hover{background:#DCE7F8}
+.chat-msgs{padding:16px 20px;max-height:320px;min-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:78%;min-width:0;box-sizing:border-box}.msg.user{align-self:flex-end}.msg.ai{align-self:flex-start;display:flex;gap:8px;width:78%}
+.ai-av{width:28px;height:28px;background:#1E5BC0;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+.bubble{padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;white-space:pre-line;word-break:break-word;overflow-wrap:anywhere;min-width:0}
+.msg.user .bubble{background:#1E5BC0;color:#fff;border-bottom-right-radius:3px}
+.msg.ai .bubble{background:#F0F4FA;color:#1a2332;border-bottom-left-radius:3px;width:100%;box-sizing:border-box}
+.msg-time{font-size:10px;color:#9CA5B5;margin-top:4px}.msg.user .msg-time{text-align:right}
+.msg-actions{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.msg-action-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#1E5BC0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;white-space:normal;text-align:left;max-width:100%;word-break:break-word;overflow-wrap:anywhere}
+.msg-action-btn:hover{background:#185FA5}
+body.dark .msg-action-btn{background:#3576E0}
+.typing-dots{display:inline-flex;gap:4px;padding:10px 14px}
+.typing-dots span{width:6px;height:6px;background:#9CA5B5;border-radius:50%;animation:bounce 1s infinite ease-in-out}
+.typing-dots span:nth-child(2){animation-delay:.15s}.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}}
+.quick-acts{display:flex;gap:8px;padding:0 20px 12px;flex-wrap:wrap}
+.q-btn{padding:10px 16px;background:#fff;border:1px solid #C7D2E2;border-radius:16px;font-size:13px;color:#1E5BC0;cursor:pointer;font-family:inherit}
+.q-btn:hover{background:#E8F0FC;border-color:#1E5BC0}
+.input-area{padding:12px 16px 16px;border-top:1px solid #EEF2F7}
+.inp-row{display:flex;gap:8px;margin-bottom:8px}
+.inp-row input{flex:1;padding:13px 16px;border:1px solid #D6DEE9;border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#F8FAFC}
+.inp-row input:focus{border-color:#1E5BC0;background:#fff}
+.send-b{width:48px;min-height:48px;background:#1E5BC0;color:#fff;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.send-b:hover{background:#144A9F}
+.voice-row{display:flex;gap:8px}
+.v-btn{flex:1;padding:11px 12px;background:#fff;border:1px solid #D6DEE9;border-radius:8px;font-size:13px;color:#5F6B7C;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.v-btn:hover{background:#F0F4FA}.v-btn.active{background:#E8F0FC;color:#1E5BC0;border-color:#1E5BC0}
+#speechReadBtn.active{
+  background:#E8F0FC;
+  color:#1E5BC0;
+  border-color:#1E5BC0;
+  font-weight:700;
+  box-shadow:0 0 0 2px rgba(30,91,192,.12) inset;
+}
+
+#speechReadBtn.speech-off{
+  background:#F8FAFC;
+  color:#94A3B8;
+  border-color:#D6DEE9;
+  opacity:.78;
+}
+
+#speechReadBtn.speech-off svg{
+  opacity:.55;
+}
+
+body.dark #speechReadBtn.active{
+  background:#1E3A5F;
+  color:#93C0FF;
+  border-color:#3576E0;
+  box-shadow:0 0 0 2px rgba(127,176,255,.16) inset;
+}
+
+body.dark #speechReadBtn.speech-off{
+  background:#1E293B;
+  color:#64748B;
+  border-color:#334155;
+  opacity:.8;
+}
+.info-head{padding:14px 18px;border-bottom:1px solid #EEF2F7;display:flex;justify-content:space-between;align-items:center}
+.info-head h2{font-size:14px;font-weight:700}
+.info-body{padding:14px 18px;display:flex;flex-direction:column;gap:12px}
+.info-row{display:flex;gap:12px}
+.loc-card{flex:1;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:12px 14px}
+.loc-label{font-size:10px;color:#5F6B7C;margin-bottom:4px}
+.loc-name{font-size:14px;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.loc-up{font-size:10px;color:#1E5BC0;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;text-decoration:underline}
+.hz-card{flex:1.2;background:linear-gradient(135deg,#FFF5F5,#FFEAEA);border:1px solid #FFCBCB;border-radius:8px;padding:12px 14px;position:relative;overflow:hidden}
+.hz-badge{position:absolute;top:12px;right:14px;width:36px;height:36px;background:#DC2626;color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700}
+.hz-label{font-size:10px;color:#B91C1C;margin-bottom:4px;font-weight:600}
+.hz-val{font-size:12px;margin-bottom:8px;padding-right:44px;line-height:1.4}
+.hz-link{font-size:10px;color:#DC2626;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;text-decoration:underline;font-weight:600}
+.sh-sec h3{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.see-all{font-size:10px;color:#1E5BC0;cursor:pointer}
+.sh-list{display:flex;flex-direction:column;gap:6px}
+.sh-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;cursor:pointer}
+.sh-item:hover{background:#EFF4FB}
+.sh-ic{width:28px;height:28px;background:#E8F0FC;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.sh-info{flex:1}.sh-nm{font-size:12.5px;font-weight:600}.sh-dist{font-size:10.5px;color:#5F6B7C}
+.map-prev{border-radius:8px;overflow:hidden;border:1px solid #E2E8F0;cursor:pointer;position:relative}
+.map-prev > div{display:block;width:100%;}
+.map-lbl{position:absolute;bottom:8px;right:8px;background:rgba(30,91,192,.9);color:#fff;font-size:10px;padding:3px 10px;border-radius:4px}
+.big-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.big-b{padding:16px 14px;background:#fff;border:1.5px solid #1E5BC0;border-radius:8px;color:#1E5BC0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;text-align:left;transition:all .15s}
+.big-b:hover{background:#1E5BC0;color:#fff}.big-b svg{width:28px;height:28px;flex-shrink:0}
+.oth-feat h3{font-size:13px;font-weight:700;margin-bottom:8px}
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.feat{padding:12px 6px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:10.5px;text-align:center}
+.feat:hover{background:#EFF4FB;border-color:#1E5BC0}
+.feat-ic{width:28px;height:28px;background:#E8F0FC;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1E5BC0}
+
+/* 設定 */
+.set-wrap{width:500px;max-width:100%;margin:0 auto;padding:20px 24px 20px;flex:1;min-height:0;overflow-y:auto;box-sizing:border-box}
+.set-wrap h2{font-size:18px;font-weight:700;margin-bottom:16px}
+.set-section{background:#fff;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:16px;overflow:hidden}
+.set-section-title{font-size:12px;font-weight:700;color:#5F6B7C;padding:12px 18px;background:#F8FAFC;border-bottom:1px solid #E2E8F0}
+.set-row{display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid #EEF2F7;gap:12px}
+.set-row:last-child{border-bottom:none}
+.set-row-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.set-row span{flex:1;font-size:13px}
+.set-row .detail{font-size:12px;color:#5F6B7C;margin-right:4px;flex:none}
+.toggle{width:40px;height:22px;border-radius:11px;display:flex;align-items:center;padding:2px;cursor:pointer;transition:all .2s;border:none;flex-shrink:0}
+.toggle.on{background:#1E5BC0;justify-content:flex-end}
+.toggle.off{background:#CBD5E1;justify-content:flex-start}
+.toggle-dot{width:18px;height:18px;border-radius:50%;background:#fff}
+.lang-row{display:flex;align-items:center;padding:12px 18px;border-bottom:1px solid #EEF2F7;gap:10px;cursor:pointer}
+.lang-row:last-child{border-bottom:none}.lang-row:hover{background:#F8FAFC}.lang-row.sel{background:#E8F0FC}
+.lang-flag{font-size:18px}.lang-name{flex:1;font-size:13px}
+.lang-check{width:20px;height:20px;border-radius:50%;border:2px solid #1E5BC0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lang-check.checked{background:#1E5BC0}
+.set-version{text-align:center;font-size:11px;color:#9CA5B5;margin-top:8px}
+
+/* ===== 地図コントロール（③検索範囲・④災害種別）===== */
+.map-controls{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.ctrl-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ctrl-label{font-size:11px;color:#5F6B7C;font-weight:600;min-width:52px}
+.ctrl-btn{padding:5px 12px;background:#fff;border:1px solid #C7D2E2;border-radius:14px;font-size:11px;color:#5F6B7C;cursor:pointer;font-family:inherit;transition:all .15s}
+.ctrl-btn:hover{background:#E8F0FC;border-color:#1E5BC0}
+.ctrl-btn.active{background:#1E5BC0;color:#fff;border-color:#1E5BC0;font-weight:600}
+/* ハザードページ 2カラム（左:地図メイン ／ 右:現在地のハザードマップ操作欄）*/
+.hazard-wrap{max-width:1280px;margin:0 auto;padding:16px 24px 16px;flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:3fr 2fr;gap:16px;align-items:start}
+.hazard-side-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.hazard-desc{font-size:13px;color:#5F6B7C;line-height:1.6;margin:0}
+.hazard-actions{display:flex;flex-direction:column;gap:10px}
+.hazard-actions button{padding:12px 14px;background:#fff;border:1.5px solid #1E5BC0;border-radius:8px;color:#1E5BC0;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.hazard-actions button:hover{background:#1E5BC0;color:#fff}
+body.dark .hazard-desc{color:#94A3B8}
+body.dark .hazard-actions button{background:#1E293B;border-color:#334155;color:#7FB0FF}
+body.dark .hazard-actions button:hover{background:#1E5BC0;color:#fff}
+
+/* ===== ⑥ 避難所リスト（動的生成）===== */
+.sh-item{transition:all .15s}
+.sh-item.active{background:#E8F0FC;border-color:#1E5BC0}
+.sh-nearest{font-size:10px;color:#1E5BC0;font-weight:600;white-space:nowrap}
+.sh-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.sh-tag{font-size:9px;padding:2px 7px;border-radius:8px;background:#EEF2F7;color:#5F6B7C}
+.sh-empty{font-size:12px;color:#9CA5B5;text-align:center;padding:16px}
+
+/* ===== ① 現在地に戻るボタン（Leafletコントロール）===== */
+.locate-btn{width:34px;height:34px;background:#fff;border:none;border-radius:6px;box-shadow:0 1px 5px rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1}
+.locate-btn:hover{background:#F0F4FA}
+
+/* ============================================
+   ダークモード（body.dark のときの配色）
+   ============================================ */
+body.dark{background:#0F172A;color:#E6EAF2;transition:background .2s,color .2s}
+/* 上部バー */
+body.dark .topbar{background:#15336B}
+/* カード・パネルなどの面（白→濃いスレート）*/
+body.dark .panel,
+body.dark .bottomnav,
+body.dark .status-card,
+body.dark .hg-card,
+body.dark .home-shelters .sh-row,
+body.dark .set-section{background:#1E293B;border-color:#334155}
+/* 一段暗い面（小カード・入力欄まわり）*/
+body.dark .loc-card,
+body.dark .sh-item,
+body.dark .feat,
+body.dark .map-prev{background:#273449;border-color:#334155}
+/* 区切り線だけのところ */
+body.dark .chat-head,
+body.dark .input-area,
+body.dark .info-head,
+body.dark .set-row,
+body.dark .lang-row{border-color:#334155}
+/* 薄いグレーの文字 */
+body.dark .navitem,
+body.dark .status-label,
+body.dark .hg-card p,
+body.dark .sh-sub,
+body.dark .chat-title p,
+body.dark .sh-dist,
+body.dark .loc-label,
+body.dark .set-row .detail,
+body.dark .ctrl-label,
+body.dark .v-btn{color:#94A3B8}
+/* もっと薄い文字 */
+body.dark .msg-time,
+body.dark .sh-empty,
+body.dark .set-version{color:#64748B}
+/* アクセント（青）の文字 */
+body.dark .navitem.active,
+body.dark .loc-up,
+body.dark .see-all,
+body.dark .sh-nearest,
+body.dark .hist-link{color:#7FB0FF;background:rgba(127,176,255,.16)}
+body.dark .hist-link:hover{background:rgba(127,176,255,.26)}
+/* 白背景のボタン類 → 暗い背景 */
+body.dark .q-btn,
+body.dark .v-btn,
+body.dark .ctrl-btn,
+body.dark .big-b{background:#1E293B;border-color:#334155}
+body.dark .q-btn,
+body.dark .big-b{color:#7FB0FF}
+body.dark .ctrl-btn{color:#94A3B8}
+body.dark .q-btn:hover,
+body.dark .v-btn:hover,
+body.dark .ctrl-btn:hover,
+body.dark .hg-card:hover,
+body.dark .sh-item:hover,
+body.dark .feat:hover{background:#2D3B52;border-color:#3576E0}
+body.dark .big-b:hover{background:#1E5BC0;color:#fff}
+body.dark .home-shelters .sh-row:hover{border-color:#3576E0}
+/* 選択中ボタンは青のまま見せる */
+body.dark .ctrl-btn.active{background:#1E5BC0;color:#fff;border-color:#1E5BC0}
+body.dark .v-btn.active{background:#1E3A5F;color:#7FB0FF;border-color:#3576E0}
+/* 薄い青の背景（アイコン・バッジ・選択行）*/
+body.dark .chat-icon,
+body.dark .sh-ic,
+body.dark .feat-ic,
+body.dark .sh-badge,
+body.dark .sh-item.active,
+body.dark .lang-row.sel{background:#1E3A5F}
+body.dark .sh-badge,
+body.dark .feat-ic{color:#93C0FF}
+body.dark .sh-item.active{border-color:#1E5BC0}
+/* グレーのタグ */
+body.dark .sh-tag{background:#334155;color:#CBD5E1}
+/* チャットのAI吹き出し */
+body.dark .msg.ai .bubble{background:#273449;color:#E6EAF2}
+/* 入力欄 */
+body.dark .inp-row input{background:#273449;border-color:#334155;color:#E6EAF2}
+body.dark .inp-row input:focus{background:#2D3B52}
+body.dark .inp-row input::placeholder{color:#7A8AA0}
+/* ハザードカード（赤）→ 暗い赤 */
+body.dark .hz-card{background:linear-gradient(135deg,#3A2226,#2E1A1E);border-color:#7F3A3A}
+body.dark .hz-val{color:#E6EAF2}
+body.dark .hz-label,
+body.dark .hz-link{color:#FF9A9A}
+/* 設定 */
+body.dark .set-section-title{background:#273449;border-color:#334155;color:#94A3B8}
+body.dark .lang-row:hover{background:#273449}
+body.dark .toggle.off{background:#475569}
+/* 地図を暗くする（タイル画像だけ反転。ピンやポップアップは元のまま）*/
+body.dark .leaflet-container{background:#303030}
+body.dark .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}
+
+/* ============================================
+   文字サイズ — CSS変数 --fs（スライダーで 0.85〜1.4 に変化）
+   後ろに置くことで元の宣言を上書きする
+   ============================================ */
+:root{--fs:1}
+.home-hero h2{font-size:calc(20px * var(--fs))}
+.home-hero p{font-size:calc(13px * var(--fs))}
+.hero-chip{font-size:calc(15px * var(--fs))}
+.status-label{font-size:calc(11px * var(--fs))}
+.status-val{font-size:calc(15px * var(--fs))}
+.hg-card h3{font-size:calc(14px * var(--fs))}
+.hg-card p{font-size:calc(12px * var(--fs))}
+.home-shelters h3{font-size:calc(15px * var(--fs))}
+.sh-name{font-size:calc(13px * var(--fs))}
+.sh-sub{font-size:calc(11px * var(--fs))}
+.chat-title h2{font-size:calc(15px * var(--fs))}
+.chat-title p{font-size:calc(11px * var(--fs))}
+.bubble{font-size:calc(13px * var(--fs))}
+.msg-action-btn{font-size:calc(12px * var(--fs))}
+.q-btn{font-size:calc(13px * var(--fs))}
+.inp-row input{font-size:calc(15px * var(--fs))}
+.v-btn{font-size:calc(13px * var(--fs))}
+.info-head h2{font-size:calc(14px * var(--fs))}
+.loc-label{font-size:calc(10px * var(--fs))}
+.loc-name{font-size:calc(14px * var(--fs))}
+.hz-label{font-size:calc(10px * var(--fs))}
+.hz-val{font-size:calc(12px * var(--fs))}
+.sh-sec h3{font-size:calc(13px * var(--fs))}
+.sh-nm{font-size:calc(12.5px * var(--fs))}
+.sh-dist{font-size:calc(10.5px * var(--fs))}
+.big-b{font-size:calc(14px * var(--fs))}
+.oth-feat h3{font-size:calc(13px * var(--fs))}
+.feat{font-size:calc(10.5px * var(--fs))}
+.set-wrap h2{font-size:calc(18px * var(--fs))}
+.set-section-title{font-size:calc(12px * var(--fs))}
+.set-row span{font-size:calc(13px * var(--fs))}
+.set-row .detail{font-size:calc(12px * var(--fs))}
+.lang-name{font-size:calc(13px * var(--fs))}
+.ctrl-label{font-size:calc(11px * var(--fs))}
+.ctrl-btn{font-size:calc(11px * var(--fs))}
+.sh-tag{font-size:calc(9px * var(--fs))}
+.sh-empty{font-size:calc(12px * var(--fs))}
+.modal-head h2{font-size:calc(16px * var(--fs))}
+.feat-sec{font-size:calc(13px * var(--fs))}
+.info-note{font-size:calc(11px * var(--fs))}
+.info-none{font-size:calc(12px * var(--fs))}
+.info-text{font-size:calc(13px * var(--fs))}
+.info-headline{font-size:calc(13px * var(--fs))}
+.manual-cat-btn{font-size:calc(14px * var(--fs))}
+.manual-item-title{font-size:calc(13px * var(--fs))}
+.manual-item-content{font-size:calc(12px * var(--fs))}
+.tip-list{font-size:calc(13px * var(--fs))}
+.tip-tag{font-size:calc(11px * var(--fs))}
+
+/* ===== 文字サイズ スライダー ===== */
+.font-slider-wrap{display:flex;align-items:center;gap:6px;margin-left:auto}
+.fs-a{color:#5F6B7C;font-weight:700;line-height:1;flex-shrink:0}
+.fs-a-sm{font-size:11px}
+.fs-a-lg{font-size:19px}
+.font-slider{width:110px;accent-color:#1E5BC0;cursor:pointer;height:4px}
+body.dark .fs-a{color:#9CA5B5}
+
+/* ===== モーダル共通（汎用モーダル & 安否連絡文） ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:#fff;border-radius:12px;width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E2E8F0}
+.modal-head h2{font-size:16px;font-weight:700}
+.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:#5F6B7C;width:32px;height:32px;border-radius:6px;line-height:1}
+.modal-close:hover{background:#F0F4FA}
+.modal-body{padding:20px;overflow-y:auto}
+/* 安否連絡モーダル専用スタイル（青いヘッダー） */
+#safetyModal .modal-head{background:#1E5BC0;color:#fff;border-bottom:none;gap:10px}
+#safetyModal .modal-head h3{flex:1;font-size:15px;font-weight:700}
+#safetyModal .modal-close{color:#fff;width:auto;height:auto;border-radius:0}
+#safetyModal .modal-close:hover{background:rgba(255,255,255,.15)}
+#safetyModal .modal-body p{font-size:12px;color:#5F6B7C;margin-bottom:10px}
+#safetyModal .modal-body textarea{width:100%;height:160px;border:1px solid #D6DEE9;border-radius:8px;padding:12px;font-size:13px;font-family:inherit;resize:none;line-height:1.7;color:#1a2332}
+.modal-foot{padding:0 20px 20px;display:flex;gap:10px}
+.modal-foot button{flex:1;padding:11px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-copy{background:#1E5BC0;color:#fff;border:none}
+.btn-copy:hover{background:#144A9F}
+.btn-cancel{background:#fff;color:#5F6B7C;border:1px solid #D6DEE9}
+.btn-cancel:hover{background:#F0F4FA}
+/* 機能パネル内のコンテンツ */
+.feat-sec{font-size:13px;font-weight:700;margin:16px 0 8px;color:#1E5BC0}
+.feat-sec:first-child{margin-top:0}
+.info-note{font-size:11px;color:#5F6B7C;margin-top:10px;line-height:1.5}
+.info-none{font-size:12px;color:#9CA5B5;padding:8px 0}
+.info-text{font-size:13px;line-height:1.7}
+.info-headline{font-size:13px;font-weight:700;color:#DC2626;margin-bottom:8px}
+.info-src{font-size:10px;color:#9CA5B5;margin-top:10px}
+/* 防災マニュアル */
+.manual-cats{margin:-20px}
+.manual-cat{border-bottom:1px solid #E2E8F0}
+.manual-cat:last-child{border-bottom:none}
+.manual-cat-btn{width:100%;text-align:left;padding:13px 20px;background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:#1a2332;display:flex;justify-content:space-between;align-items:center;font-family:inherit;transition:background .15s}
+.manual-cat-btn:hover{background:#F8FAFC}
+.manual-arrow{font-size:11px;color:#9CA5B5;margin-left:8px}
+.manual-cat-body{padding:0 20px 14px}
+.manual-item{margin-bottom:10px;padding:10px 14px;background:#F8FAFC;border-radius:8px;border-left:3px solid #1E5BC0}
+.manual-item:last-child{margin-bottom:0}
+.manual-item-title{font-size:13px;font-weight:600;color:#1a2332;margin-bottom:6px}
+.manual-item-content{font-size:12px;color:#4B5563;line-height:1.75}
+body.dark .manual-cat{border-color:#334155}
+body.dark .manual-cat-btn{color:#E6EAF2}
+body.dark .manual-cat-btn:hover{background:#273449}
+body.dark .manual-item{background:#273449;border-left-color:#3576E0}
+body.dark .manual-item-title{color:#E6EAF2}
+body.dark .manual-item-content{color:#94A3B8}
+/* 避難先のポイント */
+.tip-list{margin:0 0 4px 18px;font-size:13px;line-height:1.8}
+.tip-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tip-tag{font-size:11px;padding:5px 10px;background:#E8F0FC;color:#1E5BC0;border-radius:14px}
+/* 災害時の連絡先 */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.contact-card{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;text-decoration:none;color:inherit}
+.contact-card:hover{background:#EFF4FB;border-color:#1E5BC0}
+.contact-num{font-size:22px;font-weight:800;letter-spacing:1px}
+.contact-name{font-size:11px;color:#5F6B7C}
+.contact-row{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:6px}
+.contact-info{flex:1;display:flex;flex-direction:column;min-width:0}
+.contact-info b{font-size:13px}
+.contact-info span{font-size:12px;color:#5F6B7C}
+.contact-call{font-size:11px;font-weight:600;color:#fff;background:#16A34A;padding:6px 12px;border-radius:6px;text-decoration:none;white-space:nowrap}
+.contact-del{font-size:11px;color:#DC2626;background:none;border:1px solid #FFCBCB;border-radius:6px;padding:6px 10px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.contact-add{display:flex;gap:6px;margin-top:10px}
+.contact-add input{flex:1;padding:8px 10px;border:1px solid #D6DEE9;border-radius:6px;font-size:12px;font-family:inherit;background:#F8FAFC;min-width:0}
+.contact-add button{padding:8px 16px;background:#1E5BC0;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+/* 災害情報：警報チップ */
+.warn-list{display:flex;flex-wrap:wrap;gap:8px}
+.warn-chip{font-size:12px;font-weight:700;padding:6px 12px;background:#FEE2E2;color:#B91C1C;border:1px solid #FFCBCB;border-radius:8px}
+/* ダークモード */
+body.dark .modal-box{background:#1E293B;color:#E6EAF2}
+body.dark .modal-head{border-color:#334155}
+body.dark .modal-close{color:#94A3B8}
+body.dark .modal-close:hover{background:#273449}
+body.dark #safetyModal .modal-body p{color:#94A3B8}
+body.dark #safetyModal .modal-body textarea{background:#273449;border-color:#334155;color:#E6EAF2}
+body.dark .btn-cancel{background:#273449;border-color:#334155;color:#94A3B8}
+body.dark .contact-card,
+body.dark .contact-row,
+body.dark .contact-add input{background:#273449;border-color:#334155;color:#E6EAF2}
+body.dark .contact-card:hover{background:#2D3B52;border-color:#3576E0}
+body.dark .contact-name,
+body.dark .contact-info span,
+body.dark .info-note,
+body.dark .info-src,
+body.dark .info-none{color:#94A3B8}
+body.dark .tip-tag{background:#1E3A5F;color:#93C0FF}
+body.dark .warn-chip{background:#3A2226;color:#FF9A9A;border-color:#7F3A3A}
+
+/* ============================================
+   警報バナー
+   ============================================ */
+.warning-banner{background:#B91C1C;color:#fff}
+.quake-banner{background:#C2410C}
+.wb-close{background:none;border:none;color:#fff;font-size:16px;line-height:1;cursor:pointer;padding:4px 6px;flex-shrink:0;opacity:.85}
+.wb-close:hover{opacity:1}
+.wb-inner{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:12px}
+.wb-icon{font-size:22px;flex-shrink:0;animation:wb-pulse 1.5s infinite}
+@keyframes wb-pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.wb-body{flex:1;min-width:0}
+.wb-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.wb-sub{font-size:12px;opacity:.9}
+.wb-btn{padding:8px 14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0;display:inline-block;transition:background .15s}
+.wb-btn:hover{background:rgba(255,255,255,.35)}
+
+/* ============================================
+   ハザードリスクバッジ（現在地カード直下）
+   ============================================ */
+.hazard-badge{
+  margin:0 0 10px;
+  padding:8px 14px;
+  border-radius:8px;
+  background:#FEF3C7;
+  border:1.5px solid #F59E0B;
+  color:#92400E;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.4;
+}
+.hazard-badge:not(.hidden){display:block}
+
+/* ============================================
+   スマホ対応（〜768px）
+   ============================================ */
+@media (max-width: 768px) {
+  .topbar{padding:10px 16px}
+  .topbar h1{font-size:15px}
+  /* チャット：2カラム→1カラム、チャット欄が上に来る（デスクトップの並べ替えを解除）*/
+  .chat-wrap{grid-template-columns:1fr;padding:12px 12px 8px;gap:12px}
+  #page-chat>.panel:nth-child(1){order:0}
+  #page-chat>.panel:nth-child(2){order:0}
+  /* ホーム・ハザード */
+  .home-wrap{padding:14px 12px 90px}
+  /* ハザード：2カラム→1カラム（地図を上に） */
+  .hazard-wrap{grid-template-columns:1fr;padding:14px 12px 14px;gap:12px}
+  /* 設定 */
+  .set-wrap{padding:14px 12px 14px}
+  /* チャットメッセージエリアを少し広げる */
+  .chat-msgs{min-height:300px;max-height:420px}
+  /* 現在地＋ハザードカードを縦並びに */
+  .info-row{flex-direction:column}
+  /* ハザード行マップコントロール内のボタンを大きく */
+  .ctrl-btn{padding:8px 14px;font-size:13px}
+  /* ボタングリッドを1列に */
+  .big-acts{grid-template-columns:1fr}
+  /* その他機能を2列に（4列→2列） */
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .feat{padding:14px 8px;font-size:12px}
+  /* ハザードページのhero-rowを縦並びに */
+  .hero-row{flex-direction:column;width:100%}
+  .hero-chip{min-width:unset;width:100%}
+  /* 避難所カードのタグを少し大きく */
+  .sh-tag{font-size:11px;padding:3px 9px}
+  /* モーダルを画面いっぱいに */
+  .modal-overlay{padding:12px}
+  .modal-box{max-height:90vh}
+  /* 警報バナー */
+  .wb-inner{padding:10px 16px;gap:8px}
+  .wb-title{font-size:13px}
+  .wb-sub{font-size:11px}
+  .wb-btn{font-size:11px;padding:6px 10px}
+}
